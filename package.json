@@ -1,0 +1,17 @@
+{
+  "name": "ekatva-campus-app",
+  "version": "1.0.0",
+  "description": "EKATVA AI-powered Campus Operating System",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "ekattva-ai"
+  ],
+  "scripts": {
+    "start": "npm run start --workspace=backend",
+    "dev": "npm run dev --workspace=backend & npm run dev --workspace=ekattva-ai",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=ekattva-ai",
+    "install:all": "npm install && npm install --workspace=backend && npm install --workspace=ekattva-ai"
+  }
+}
