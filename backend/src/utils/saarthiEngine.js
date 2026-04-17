@@ -185,6 +185,30 @@ const whatIfScenario = (currentData, changedValue, changeType) => {
 };
 
 /**
+ * Calculate Holistic Excellence Score (0-100)
+ * Weighted: 40% Academics, 30% Skills/Certs, 30% Participation
+ */
+const calculateHolisticScore = (userData) => {
+  const { 
+    gpa = 7.0, 
+    attendance = 75, 
+    certifications = [], 
+    participationCount = 0 
+  } = userData;
+
+  // 1. Academic Score (0-40)
+  const academicScore = ((gpa / 10) * 20) + ((attendance / 100) * 20);
+
+  // 2. Skills/Certs Score (0-30)
+  const certScore = Math.min(certifications.length * 7.5, 30);
+
+  // 3. Participation Score (0-30)
+  const partScore = Math.min(participationCount * 10, 30);
+
+  return Math.round(academicScore + certScore + partScore);
+};
+
+/**
  * Analyze academic health
  */
 const analyzeAcademicHealth = (attendance, gpa, studyHours, assignments) => {
@@ -215,4 +239,5 @@ module.exports = {
   generateSuggestions,
   whatIfScenario,
   analyzeAcademicHealth,
+  calculateHolisticScore,
 };

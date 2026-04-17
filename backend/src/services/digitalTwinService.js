@@ -275,13 +275,28 @@ class DigitalTwinService {
     const assignments = digitalTwin.assignments || {};
     const activityScore = digitalTwin.activity_score || {};
 
+    // Extracts achievements and participation from the packed insights field
+    const insights = digitalTwin.insights || [];
+    const certifications = insights.filter(i => i.type === 'achievement') || [];
+    const participations = insights.filter(i => i.type === 'participation') || [];
+
+    const holisticScore = saarthiEngine.calculateHolisticScore({
+      gpa: digitalTwin.current_gpa,
+      attendance: attendance.attendancePercentage,
+      certifications,
+      participationCount: participations.length
+    });
+
     return {
       gpa: digitalTwin.current_gpa,
       attendance: attendance.attendancePercentage || 0,
       studyHours: studyHours.currentWeek || 0,
       activityScore: activityScore.dailyScore || 0,
+      holisticScore,
+      achievements: certifications,
+      participation: participations,
       pendingAssignments: (assignments.pending || []).length,
-      recentInsights: (digitalTwin.insights || []).slice(-3),
+      recentInsights: insights.filter(i => i.type === 'insight').slice(-3),
       academicHealth: digitalTwin.academic_health,
     };
   }

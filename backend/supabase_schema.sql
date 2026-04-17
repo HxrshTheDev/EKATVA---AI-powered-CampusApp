@@ -277,6 +277,19 @@ create table generated_exams (
     created_at timestamp with time zone default now()
 );
 
+-- Certificates Table [NEW]
+create table certificates (
+    id uuid primary key default uuid_generate_v4(),
+    user_id uuid references users(id) on delete cascade,
+    title text not null,
+    issuer text not null,
+    issue_date timestamp with time zone default now(),
+    verification_url text,
+    skills_earned text[] default '{}',
+    category text check (category in ('technical', 'soft-skill', 'participation', 'academic')),
+    created_at timestamp with time zone default now()
+);
+
 -- Update trigger function
 create or replace function update_updated_at_column()
 returns trigger as $$
