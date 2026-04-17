@@ -1,9 +1,0 @@
-node_modules/
-.env
-dist/
-build/
-.next/
-out/
-*.log
-.DS_Store
-.vscode/
